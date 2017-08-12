@@ -85,11 +85,12 @@ namespace ILiveLib
         }
         private void SendCMD(int addr, int fun, int pa)
         {
-            ILiveDebug.Instance.WriteLine("Curtains:" + pa + ":" + addr);
+           // ILiveDebug.Instance.WriteLine("Curtains:" + pa + ":" + addr);
             byte check = (byte)(pa + addr);
             byte[] data = { 0x55, 0xAA, (byte)fun, (byte)pa, 0x00, (byte)addr, check };
-            ILiveDebug.Instance.WriteLine("Curtains:" + ILiveUtil.ToHexString(data));
             this.port.Send(data);
+            ILiveDebug.Instance.WriteLine("Curtains:" + ILiveUtil.ToHexString(data));
+
         }
     }
 }

@@ -101,16 +101,16 @@ namespace ILiveLib
         }
         public void Send(byte[] data)
         {
+
             server.SendData(data, data.Length);
-            //throw new NotImplementedException();
+           // ILiveDebug.Instance.WriteLine("UDP" + ILiveUtil.ToHexString(data));
+            //else
+            //{
+            //    ILiveDebug.Instance.WriteLine("success");
+            //}
+          //  ILiveDebug.Instance.WriteLine(server.RemotePortNumber+server.PortNumber+server.LocalAddressOfServer+"UDPData:" + ILiveUtil.ToHexString(data));
+
         }
-
-        #endregion
-
-        #region INetPortDevice 成员
-
-
-
 
         #endregion
     }
