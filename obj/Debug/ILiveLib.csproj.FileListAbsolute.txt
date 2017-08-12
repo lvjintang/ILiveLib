@@ -1,0 +1,9 @@
+D:\ILive\Project\Common\ILiveLib\bin\Debug\ILiveLib.dll
+D:\ILive\Project\Common\ILiveLib\bin\Debug\ILiveLib.pdb
+D:\ILive\Project\Common\ILiveLib\bin\Debug\SimplSharpCryptographyInterface.dll
+D:\ILive\Project\Common\ILiveLib\bin\Debug\SimplSharpNewtonsoft.dll
+D:\ILive\Project\Common\ILiveLib\bin\Debug\SimplSharpSQLHelperInterface.dll
+D:\ILive\Project\Common\ILiveLib\bin\Debug\SimplSharpReflectionInterface.dll
+D:\ILive\Project\Common\ILiveLib\obj\Debug\ResolveAssemblyReference.cache
+D:\ILive\Project\Common\ILiveLib\obj\Debug\ILiveLib.dll
+D:\ILive\Project\Common\ILiveLib\obj\Debug\ILiveLib.pdb
