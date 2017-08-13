@@ -65,28 +65,34 @@ namespace ILiveLib
         public delegate void Push16IHandler(int id, bool iChanStatus);
         public event Push16IHandler Push16IEvent;
 
-        public ComPort comDaHua;
-        public ILiveIRACC(ComPort com)
+                private INetPortDevice port = null;
+                public ILiveIRACC(INetPortDevice com)
         {
-            #region 注册串口
-            comDaHua = com;
-            comDaHua.SerialDataReceived += new ComPortDataReceivedEvent(comDaHua_SerialDataReceived);
-            if (!comDaHua.Registered)
-            {
-                if (comDaHua.Register() != eDeviceRegistrationUnRegistrationResponse.Success)
-                    ErrorLog.Error("COM Port couldn't be registered. Cause: {0}", comDaHua.DeviceRegistrationFailureReason);
-                if (comDaHua.Registered)
-                    comDaHua.SetComPortSpec(ComPort.eComBaudRates.ComspecBaudRate9600,
-                                                                     ComPort.eComDataBits.ComspecDataBits8,
-                                                                     ComPort.eComParityType.ComspecParityNone,
-                                                                     ComPort.eComStopBits.ComspecStopBits1,
-                                         ComPort.eComProtocolType.ComspecProtocolRS232,
-                                         ComPort.eComHardwareHandshakeType.ComspecHardwareHandshakeNone,
-                                         ComPort.eComSoftwareHandshakeType.ComspecSoftwareHandshakeNone,
-                                         false);
-            }
-            #endregion
+            this.port = com;
         }
+
+        //public ComPort comDaHua;
+        //public ILiveIRACC(ComPort com)
+        //{
+        //    #region 注册串口
+        //    comDaHua = com;
+        //    comDaHua.SerialDataReceived += new ComPortDataReceivedEvent(comDaHua_SerialDataReceived);
+        //    if (!comDaHua.Registered)
+        //    {
+        //        if (comDaHua.Register() != eDeviceRegistrationUnRegistrationResponse.Success)
+        //            ErrorLog.Error("COM Port couldn't be registered. Cause: {0}", comDaHua.DeviceRegistrationFailureReason);
+        //        if (comDaHua.Registered)
+        //            comDaHua.SetComPortSpec(ComPort.eComBaudRates.ComspecBaudRate9600,
+        //                                                             ComPort.eComDataBits.ComspecDataBits8,
+        //                                                             ComPort.eComParityType.ComspecParityNone,
+        //                                                             ComPort.eComStopBits.ComspecStopBits1,
+        //                                 ComPort.eComProtocolType.ComspecProtocolRS232,
+        //                                 ComPort.eComHardwareHandshakeType.ComspecHardwareHandshakeNone,
+        //                                 ComPort.eComSoftwareHandshakeType.ComspecSoftwareHandshakeNone,
+        //                                 false);
+        //    }
+        //    #endregion
+        //}
         public void SendIRACCPower(bool on, IRACCFL fl)
         {
             byte dd = 0x60;
@@ -177,11 +183,11 @@ namespace ILiveLib
 
             string senddata = this.GetCMDString(data);
 
-            byte[] sendBytes = Encoding.GetEncoding(28591).GetBytes(senddata);
-            ILiveDebug.Instance.WriteLine("IRACCData:" + ILiveUtil.ToHexString(sendBytes));
+            //byte[] sendBytes = Encoding.GetEncoding(28591).GetBytes(senddata);
+            //ILiveDebug.Instance.WriteLine("IRACCData:" + ILiveUtil.ToHexString(sendBytes));
 
 
-            this.comDaHua.Send(senddata);
+            this.port.Send(senddata);
         }
         private string GetCMDString(params byte[] senddata)
         {

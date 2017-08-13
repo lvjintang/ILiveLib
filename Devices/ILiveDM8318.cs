@@ -12,27 +12,10 @@ namespace ILiveLib
     /// </summary>
     public class ILiveDM8318
     {
-        public ComPort com;
-        public ILiveDM8318(ComPort com)
+        private INetPortDevice port = null;
+        public ILiveDM8318(INetPortDevice com)
         {
-            #region 注册串口
-            this.com = com;
-            com.SerialDataReceived += new ComPortDataReceivedEvent(com_SerialDataReceived);
-            if (!com.Registered)
-            {
-                if (com.Register() != eDeviceRegistrationUnRegistrationResponse.Success)
-                    ErrorLog.Error("COM Port couldn't be registered. Cause: {0}", com.DeviceRegistrationFailureReason);
-                if (com.Registered)
-                    com.SetComPortSpec(ComPort.eComBaudRates.ComspecBaudRate115200,
-                                                                     ComPort.eComDataBits.ComspecDataBits8,
-                                                                     ComPort.eComParityType.ComspecParityNone,
-                                                                     ComPort.eComStopBits.ComspecStopBits1,
-                                         ComPort.eComProtocolType.ComspecProtocolRS232,
-                                         ComPort.eComHardwareHandshakeType.ComspecHardwareHandshakeNone,
-                                         ComPort.eComSoftwareHandshakeType.ComspecSoftwareHandshakeNone,
-                                         false);
-            }
-            #endregion
+            this.port = com;
         }
 
         void com_SerialDataReceived(ComPort ReceivingComPort, ComPortSerialDataEventArgs args)
@@ -145,10 +128,10 @@ namespace ILiveLib
             string senddata = this.GetCMDString(data);
 
 
-            byte[] sendBytes = Encoding.GetEncoding(28591).GetBytes(senddata);
-            ILiveDebug.Instance.WriteLine("MusicData:" + ILiveUtil.ToHexString(sendBytes));
+            //byte[] sendBytes = Encoding.GetEncoding(28591).GetBytes(senddata);
+            //ILiveDebug.Instance.WriteLine("MusicData:" + ILiveUtil.ToHexString(sendBytes));
 
-            this.com.Send(senddata);
+            this.port.Send(senddata);
         }
         private string GetCMDString(params byte[] senddata)
         {

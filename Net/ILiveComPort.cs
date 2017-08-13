@@ -26,20 +26,40 @@ namespace ILiveLib
 
         public void Register()
         {
+            this.Register(ComPort.eComProtocolType.ComspecProtocolRS232, ComPort.eComBaudRates.ComspecBaudRate9600);
+            ////if (!this.com.Registered)
+            ////{
+            ////    if (this.com.Register() != eDeviceRegistrationUnRegistrationResponse.Success)
+            ////        ErrorLog.Error("COM Port couldn't be registered. Cause: {0}", this.com.DeviceRegistrationFailureReason);
+            ////    if (this.com.Registered)
+            ////        this.com.SetComPortSpec(ComPort.eComBaudRates.ComspecBaudRate9600,
+            ////                                                         ComPort.eComDataBits.ComspecDataBits8,
+            ////                                                         ComPort.eComParityType.ComspecParityNone,
+            ////                                                         ComPort.eComStopBits.ComspecStopBits1,
+            ////                             ComPort.eComProtocolType.ComspecProtocolRS232,
+            ////                             ComPort.eComHardwareHandshakeType.ComspecHardwareHandshakeNone,
+            ////                             ComPort.eComSoftwareHandshakeType.ComspecSoftwareHandshakeNone,
+            ////                             false);
+                
+            ////    ILiveDebug.Instance.WriteLine("COM Reg Sucess");
+            ////}
+        }
+        public void Register(ComPort.eComProtocolType comspecProtocolRS232, Crestron.SimplSharpPro.ComPort.eComBaudRates baudrates)
+        {
             if (!this.com.Registered)
             {
                 if (this.com.Register() != eDeviceRegistrationUnRegistrationResponse.Success)
                     ErrorLog.Error("COM Port couldn't be registered. Cause: {0}", this.com.DeviceRegistrationFailureReason);
                 if (this.com.Registered)
-                    this.com.SetComPortSpec(ComPort.eComBaudRates.ComspecBaudRate9600,
+                    this.com.SetComPortSpec(baudrates,
                                                                      ComPort.eComDataBits.ComspecDataBits8,
                                                                      ComPort.eComParityType.ComspecParityNone,
                                                                      ComPort.eComStopBits.ComspecStopBits1,
-                                         ComPort.eComProtocolType.ComspecProtocolRS232,
+                                         comspecProtocolRS232,
                                          ComPort.eComHardwareHandshakeType.ComspecHardwareHandshakeNone,
                                          ComPort.eComSoftwareHandshakeType.ComspecSoftwareHandshakeNone,
                                          false);
-                
+
                 ILiveDebug.Instance.WriteLine("COM Reg Sucess");
             }
         }

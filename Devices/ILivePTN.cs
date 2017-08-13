@@ -19,7 +19,7 @@ namespace ILiveLib
             {
                 this.port = port;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 // ILiveDebug.Instance.WriteLine(ex.Message);
             }
