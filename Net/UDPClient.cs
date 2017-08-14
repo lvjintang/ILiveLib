@@ -67,8 +67,11 @@ namespace ILiveLib
             if (numberOfBytesReceived > 0)
             {
                 string messageReceived = Encoding.GetEncoding(28591).GetString(myUDPServer.IncomingDataBuffer, 0, numberOfBytesReceived);
+                if (this.NetDataReceived!=null)
+                {
+                    NetDataReceived(this, new NetPortSerialDataEventArgs() { SerialData = messageReceived, SerialEncoding = eStringEncoding.eEncodingASCII });
 
-                NetDataReceived(this, new NetPortSerialDataEventArgs() { SerialData = messageReceived, SerialEncoding = eStringEncoding.eEncodingASCII });
+                }
             }
             try
             {
