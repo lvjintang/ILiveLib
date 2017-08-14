@@ -77,12 +77,17 @@
   <ItemGroup>
     <Compile Include="Devices\ALiYunSMS.cs" />
     <Compile Include="Devices\ILiveBenq.cs" />
+    <Compile Include="Devices\ILiveDaHua.cs" />
+    <Compile Include="Devices\ILiveDM8318.cs" />
+    <Compile Include="Devices\ILiveDM838.cs" />
     <Compile Include="Devices\ILiveInfocus.cs" />
     <Compile Include="Devices\ILiveIRACC.cs" />
     <Compile Include="Devices\ILiveIsin.cs" />
+    <Compile Include="Devices\ILiveLDI3.cs" />
     <Compile Include="Devices\ILiveMarantz.cs" />
     <Compile Include="Devices\ILiveOppo.cs" />
     <Compile Include="Devices\ILivePTN.cs" />
+    <Compile Include="Devices\ILiveS2.cs" />
     <Compile Include="Devices\ILiveSharp.cs" />
     <Compile Include="Devices\ILiveTPC5.cs" />
     <Compile Include="Devices\ILiveVivitek.cs" />
@@ -92,6 +97,7 @@
     <Compile Include="Devices\ILiveYodar.cs" />
     <Compile Include="Devices\ILiveZQWL16.cs" />
     <Compile Include="ILiveDebug.cs" />
+    <Compile Include="Net\ILiveComPort.cs" />
     <Compile Include="Util\ILiveUtil.cs" />
     <Compile Include="Net\HttpUtil.cs" />
     <Compile Include="Net\ILiveTCPServer.cs" />
