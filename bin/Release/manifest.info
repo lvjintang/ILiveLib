@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-﻿MainAssembly=ILiveLib.dll:da2f4c41f02f8c9f9ec4a0a16e1fb591
-=======
-﻿MainAssembly=ILiveLib.dll:0923211a54c1cb16ff3e6f6c32d55198
->>>>>>> 5d129dd3b1029d1d669129078019f1dfdbbbe991
+﻿MainAssembly=ILiveLib.dll:177154bd8a3993787d1deb3529021e23
 MainAssemblyMinFirmwareVersion=1.009.0029
 MainAssemblyResource=SimplSharpData.dat:820b61c48c8a2cace82957eed4cc377c
 ü
