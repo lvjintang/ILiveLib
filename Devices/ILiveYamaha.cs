@@ -10,7 +10,7 @@ using ILiveLib;
 namespace ILiveLib
 {
     /// <summary>
-    /// 雅马哈功放
+    /// 雅马哈功放 9600
     /// </summary>
     public class ILiveYamaha
     {
