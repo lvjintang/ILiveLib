@@ -28,19 +28,28 @@ namespace ILiveLib
 
         public void PowerOn()
         {
+
+   
+
             //5830303158
-            byte[] sendBytes = new byte[] { 0x06, 0x14, 0x00, 0x03, 0x00, 0x34, 0x11, 0x00, 0x5C };
-            string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
-            port.Send(data);
+            byte[] sendBytes = new byte[] { 0x06, 0x14, 0x00, 0x04, 0x00, 0x34, 0x11, 0x00, 0x00, 0x5D };
+
+           // byte[] sendBytes = new byte[] { 0x06, 0x14, 0x00, 0x03, 0x00, 0x34, 0x11, 0x00, 0x5C };
+            ILiveDebug.Instance.WriteLine("BenqOn");
+            //string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
+            port.Send(sendBytes);
         }
         public void PowerOff()
         {
             //5830303158
             //06140003003411015D
             //5830303258
-            byte[] sendBytes = new byte[] { 0x06, 0x14, 0x00, 0x03, 0x00, 0x34, 0x11, 0x01, 0x5D };
-            string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
-            port.Send(data);
+            byte[] sendBytes = new byte[] { 0x58,0x30,0x30,0x32,0x58 };
+          //  byte[] sendBytes = new byte[] { 0x06, 0x14, 0x00, 0x04, 0x00, 0x34, 0x11, 0x01, 0x5E };
+
+           // byte[] sendBytes = new byte[] { 0x06, 0x14, 0x00, 0x03, 0x00, 0x34, 0x11, 0x01, 0x5D };
+            ILiveDebug.Instance.WriteLine("BenqOff");
+            port.Send(sendBytes);
         }
         public void HDMI1()
         { }
