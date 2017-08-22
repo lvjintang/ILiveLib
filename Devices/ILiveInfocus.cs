@@ -19,12 +19,12 @@ namespace ILiveLib
         /// <summary>
         /// 接收事件
         /// </summary>
-        private Thread tcpListenHandler;
+       // private Thread tcpListenHandler;
 
 
         public delegate void Push16IHandler(int id,int btnid, bool iChanStatus);
 
-        public event Push16IHandler Push16IEvent;
+     //   public event Push16IHandler Push16IEvent;
 
 
         public ILiveInfocus(string ip, int port)

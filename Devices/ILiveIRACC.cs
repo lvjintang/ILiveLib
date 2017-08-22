@@ -63,7 +63,10 @@ namespace ILiveLib
     public class ILiveIRACC
     {
         public delegate void Push16IHandler(int id, bool iChanStatus);
-        public event Push16IHandler Push16IEvent;
+      /// <summary>
+      /// 
+      /// </summary>
+ // public event Push16IHandler Push16IEvent;
 
                 private INetPortDevice port = null;
                 public ILiveIRACC(INetPortDevice com)

@@ -15,7 +15,7 @@ namespace ILiveLib.Devices
     public class ILiveDaHua
     {
         public delegate void Push16IHandler(int id, bool iChanStatus);
-        public event Push16IHandler Push16IEvent;
+       // public event Push16IHandler Push16IEvent;
 
         public ComPort comDaHua;
         public ILiveDaHua(ComPort com)

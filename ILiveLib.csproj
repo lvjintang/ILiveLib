@@ -98,6 +98,7 @@
     <Compile Include="Devices\ILiveZQWL16.cs" />
     <Compile Include="ILiveDebug.cs" />
     <Compile Include="Net\ILiveComPort.cs" />
+    <Compile Include="Remoting\ILiveRemoting.cs" />
     <Compile Include="Util\ILiveUtil.cs" />
     <Compile Include="Net\HttpUtil.cs" />
     <Compile Include="Net\ILiveTCPServer.cs" />
