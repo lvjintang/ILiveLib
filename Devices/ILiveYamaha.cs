@@ -10,7 +10,7 @@ using ILiveLib;
 namespace ILiveLib
 {
     /// <summary>
-    /// 雅马哈功放
+    /// 雅马哈功放 9600
     /// </summary>
     public class ILiveYamaha
     {
@@ -32,8 +32,9 @@ namespace ILiveLib
 
             //404D41494E3A5057523D4F6E0D0A
             byte[] sendBytes = new byte[] {0x40,0x4D,0x41,0x49,0x4E,0x3A,0x50,0x57,0x52,0x3D,0x4F,0x6E,0x0D,0x0A  };
-            string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
-            this.server.Send(data);
+            ILiveDebug.Instance.WriteLine("SmallAVPowerOn");
+           // string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
+            this.server.Send(sendBytes);
 
             Thread.Sleep(200);
         }
@@ -41,32 +42,34 @@ namespace ILiveLib
         {
             //404D41494E3A5057523D5374616E6462790D0A
             byte[] sendBytes = new byte[] {0x40,0x4D,0x41,0x49,0x4E,0x3A,0x50,0x57,0x52,0x3D,0x53,0x74,0x61,0x6E,0x64,0x62,0x79,0x0D,0x0A };
-            string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
-            this.server.Send(data);
+           // string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
+            ILiveDebug.Instance.WriteLine("SmallAVPowerOn");
+
+            this.server.Send(sendBytes);
 
             Thread.Sleep(200);
         }
         public void VolUp()
         {
             byte[] sendBytes = new byte[] { 0x40,0x4D,0x41,0x49,0x4E,0x3A,0x56,0x4F,0x4C,0x3D,0x55,0x70, 0x0D, 0x0A };
-            string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
-            this.server.Send(data);
+            //string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
+            this.server.Send(sendBytes);
 
             Thread.Sleep(200);
         }
         public void VolDown()
         {
             byte[] sendBytes = new byte[] { 0x40,0x4D,0x41,0x49,0x4E,0x3A,0x56,0x4F,0x4C,0x3D,0x44,0x6F,0x77,0x6E, 0x0D, 0x0A };
-            string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
-            this.server.Send(data);
+            //string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
+            this.server.Send(sendBytes);
 
             Thread.Sleep(200);
         }
         public void MuteOn()
         {
             byte[] sendBytes = new byte[] { 0x40,0x4D,0x41,0x49,0x4E,0x3A,0x4D,0x55,0x54,0x45,0x3D,0x4F,0x6E, 0x0D, 0x0A };
-            string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
-            this.server.Send(data);
+            //string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
+            this.server.Send(sendBytes);
 
             Thread.Sleep(200);
         }

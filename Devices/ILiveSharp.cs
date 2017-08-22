@@ -37,8 +37,8 @@ namespace ILiveLib
         public void PowerOn()
         {
             byte[] sendBytes = new byte[] { 0x50, 0x4F, 0x57, 0x52, 0x20, 0x20, 0x20, 0x31, 0x0D };
-            string data = Encoding.GetEncoding(28591).GetString(sendBytes,0,sendBytes.Length);
-            port.Send(data);
+            //string data = Encoding.GetEncoding(28591).GetString(sendBytes,0,sendBytes.Length);
+            port.Send(sendBytes);
         }
         public void PowerOff()
         {

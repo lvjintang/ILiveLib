@@ -73,11 +73,11 @@ namespace ILiveLib
         }
         public void Open(int addr)
         {
-            this.SendCMD(addr, 0x03, 0x03);
+            this.SendCMD(addr, 0x03, 0x01);
         }
         public void Close(int addr)
         {
-            this.SendCMD(addr, 0x03, 0x01);
+            this.SendCMD(addr, 0x03, 0x03);
         }
         public void Stop(int addr)
         {
