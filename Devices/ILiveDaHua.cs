@@ -6,7 +6,7 @@ using Crestron.SimplSharp;
 using Crestron.SimplSharpPro;
 using Crestron.SimplSharpPro.CrestronThread;
 
-namespace ILiveLib.Devices
+namespace ILiveLib
 {
     /// <summary>
     /// 大华多功能模块
@@ -16,27 +16,28 @@ namespace ILiveLib.Devices
     {
         public delegate void Push16IHandler(int id, bool iChanStatus);
        // public event Push16IHandler Push16IEvent;
-
-        public ComPort comDaHua;
-        public ILiveDaHua(ComPort com)
+        private INetPortDevice port = null;
+        //public ComPort comDaHua;
+        public ILiveDaHua(INetPortDevice com)
         {
             #region 注册串口
-            comDaHua = com;
-            comDaHua.SerialDataReceived += new ComPortDataReceivedEvent(comDaHua_SerialDataReceived);
-            if (!comDaHua.Registered)
-            {
-                if (comDaHua.Register() != eDeviceRegistrationUnRegistrationResponse.Success)
-                    ErrorLog.Error("COM Port couldn't be registered. Cause: {0}", comDaHua.DeviceRegistrationFailureReason);
-                if (comDaHua.Registered)
-                    comDaHua.SetComPortSpec(ComPort.eComBaudRates.ComspecBaudRate9600,
-                                                                     ComPort.eComDataBits.ComspecDataBits8,
-                                                                     ComPort.eComParityType.ComspecParityNone,
-                                                                     ComPort.eComStopBits.ComspecStopBits1,
-                                         ComPort.eComProtocolType.ComspecProtocolRS485,
-                                         ComPort.eComHardwareHandshakeType.ComspecHardwareHandshakeNone,
-                                         ComPort.eComSoftwareHandshakeType.ComspecSoftwareHandshakeNone,
-                                         false);
-            }
+            this.port = com;
+            //comDaHua = com;
+            //comDaHua.SerialDataReceived += new ComPortDataReceivedEvent(comDaHua_SerialDataReceived);
+            //if (!comDaHua.Registered)
+            //{
+            //    if (comDaHua.Register() != eDeviceRegistrationUnRegistrationResponse.Success)
+            //        ErrorLog.Error("COM Port couldn't be registered. Cause: {0}", comDaHua.DeviceRegistrationFailureReason);
+            //    if (comDaHua.Registered)
+            //        comDaHua.SetComPortSpec(ComPort.eComBaudRates.ComspecBaudRate9600,
+            //                                                         ComPort.eComDataBits.ComspecDataBits8,
+            //                                                         ComPort.eComParityType.ComspecParityNone,
+            //                                                         ComPort.eComStopBits.ComspecStopBits1,
+            //                             ComPort.eComProtocolType.ComspecProtocolRS485,
+            //                             ComPort.eComHardwareHandshakeType.ComspecHardwareHandshakeNone,
+            //                             ComPort.eComSoftwareHandshakeType.ComspecSoftwareHandshakeNone,
+            //                             false);
+            //}
             #endregion
         }
         void comDaHua_SerialDataReceived(ComPort ReceivingComPort, ComPortSerialDataEventArgs args)
@@ -97,10 +98,10 @@ namespace ILiveLib.Devices
 
             // ILiveDebug.Instance.WriteLine("dahua" + ILiveUtil.ToHexString(sendBytes));
 
-            string cmd = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
+           // string cmd = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
 
-            this.comDaHua.Send(cmd);
-            Thread.Sleep(200);
+            this.port.Send(sendBytes);
+            Thread.Sleep(300);
         }
     }
 }

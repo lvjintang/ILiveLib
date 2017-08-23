@@ -42,18 +42,131 @@ namespace ILiveLib
 
         }
 
-        public void RelayOpen()
+        public void RelayOpen(int i)
         {
+            byte[] data = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            switch (i)
+            {
+                case 1:
+                    data = new byte[] { 0x12, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 2:
+                    data = new byte[] { 0x21, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 3:
+                    data = new byte[] { 0x22, 0x12, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 4:
+                    data = new byte[] { 0x22, 0x21, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 5:
+                    data = new byte[] { 0x22, 0x22, 0x12, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 6:
+                    data = new byte[] { 0x22, 0x22, 0x21, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 7:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x12, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 8:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x21, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 9:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x12, 0x22, 0x22, 0x22 };
+                    break;
+                case 10:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x21, 0x22, 0x22, 0x22 };
+                    break;
+                case 11:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x12, 0x22, 0x22 };
+                    break;
+                case 12:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x21, 0x22, 0x22 };
+                    break;
+                case 13:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x12, 0x22 };
+                    break;
+                case 14:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x21, 0x22 };
+                    break;
+                case 15:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x12 };
+                    break;
+                case 16:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x21 };
+                    break;
+                default:
+                    break;
+            }
 
-            this.SendData(this.addr, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+            this.SendData(this.addr, data);
 
         }
-        public void RelayClose()
+        public void RelayClose(int i)
         {
-            this.SendData(this.addr, new byte[]{0x11,0x11,0x11,0x11,0x11,0x11});
+            byte[] data = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            switch (i)
+            {
+                case 1:
+                    data = new byte[] { 0x02, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 2:
+                    data = new byte[] { 0x20, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 3:
+                    data = new byte[] { 0x22, 0x02, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 4:
+                    data = new byte[] { 0x22, 0x20, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 5:
+                    data = new byte[] { 0x22, 0x22, 0x02, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 6:
+                    data = new byte[] { 0x22, 0x22, 0x20, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 7:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x02, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 8:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x20, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 9:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x02, 0x22, 0x22, 0x22 };
+                    break;
+                case 00:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x20, 0x22, 0x22, 0x22 };
+                    break;
+                case 11:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x02, 0x22, 0x22 };
+                    break;
+                case 12:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x20, 0x22, 0x22 };
+                    break;
+                case 13:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x02, 0x22 };
+                    break;
+                case 14:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x20, 0x22 };
+                    break;
+                case 15:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x02 };
+                    break;
+                case 16:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x20 };
+                    break;
+                default:
+                    break;
+            }
 
+            this.SendData(this.addr, data);
         }
-        public void SetRelay(int addr,byte[] data)
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="data">8字节数组 每字节代表2路 如0x10 第一路断开 第二路闭合。继电器只识别0和1，其他数据不做任何动作，可以将该路赋值微其它值</param>
+        public void SetRelay( byte[] data)
         {
             this.SendData(this.addr, data);
         }
@@ -61,7 +174,16 @@ namespace ILiveLib
         /// 发送数据
         /// </summary>
         /// <param name="address"></param>
-        /// <param name="data"></param>
+        /// <param name="data">8字节数组 每字节代表2路 如0x10 第一路断开 第二路闭合。继电器只识别0和1，其他数据不做任何动作，可以将该路赋值微其它值</param>
+        public void SetRelay(int addr,byte[] data)
+        {
+            this.SendData(addr, data);
+        }
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="data">每字节代表2路 如0x10 第一路断开 第二路闭合。继电器只识别0和1，其他数据不做任何动作，可以将该路赋值微其它值</param>
         private void SendData(int address, byte[] data)
         {
             if (data.Length!=8)
