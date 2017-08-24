@@ -42,7 +42,7 @@ namespace ILiveLib.Remoting
             }
             catch (Exception e)
             {
-                ErrorLog.Error("Error in InitializeSystem: {0}", e.Message);
+                ErrorLog.Error("Error in Remoting: {0}", e.Message);
             }
         }
         private void Conn()
@@ -56,10 +56,10 @@ namespace ILiveLib.Remoting
         }
         void tcp_SocketStatusChange(TCPClient myTCPClient, SocketStatus clientSocketStatus)
         {
-            ILiveDebug.Instance.WriteLine("ILiveRemoting:tcp_SocketStatusChange:" + clientSocketStatus.ToString());
+          //  ILiveDebug.Instance.WriteLine("ILiveRemoting:tcp_SocketStatusChange:" + clientSocketStatus.ToString());
             if (clientSocketStatus==SocketStatus.SOCKET_STATUS_NO_CONNECT)
             {
-                Thread.Sleep(6000);
+                Thread.Sleep(360000);
                 this.Conn();
             }
            // throw new NotImplementedException();
@@ -72,10 +72,10 @@ namespace ILiveLib.Remoting
         {
             if (myTCPClient.ClientStatus==SocketStatus.SOCKET_STATUS_NO_CONNECT)
             {
-                Thread.Sleep(6000);
+                Thread.Sleep(360000);
                 this.Conn();
             }
-            ILiveDebug.Instance.WriteLine("ILiveRemoting:TCPClientConnectCallback:"+myTCPClient.ClientStatus);
+          //  ILiveDebug.Instance.WriteLine("ILiveRemoting:TCPClientConnectCallback:"+myTCPClient.ClientStatus);
 
             myTCPClient.ReceiveDataAsync(this.DataReceive);
         }
@@ -86,7 +86,7 @@ namespace ILiveLib.Remoting
         /// <param name="numberOfBytesReceived"></param>
         void DataReceive(TCPClient myTCPClient, int numberOfBytesReceived)
         {
-            ILiveDebug.Instance.WriteLine("ILiveRemoting:DataReceive");
+           // ILiveDebug.Instance.WriteLine("ILiveRemoting:DataReceive");
 
 
             string messageReceived = string.Empty;
@@ -109,7 +109,7 @@ namespace ILiveLib.Remoting
             byte[] datas = Encoding.GetEncoding(28591).GetBytes(p);
             if (tcp!=null&&tcp.ClientStatus==SocketStatus.SOCKET_STATUS_CONNECTED)
             {
-                ILiveDebug.Instance.WriteLine("ILiveRemoting:Send");
+               // ILiveDebug.Instance.WriteLine("ILiveRemoting:Send");
 
                 tcp.SendData(datas, datas.Length);
 
@@ -120,8 +120,6 @@ namespace ILiveLib.Remoting
         {
             this.Conn();
            // new Thread(new ThreadCallbackFunction(this.Conn), this, Thread.eThreadStartOptions.Running);
-
-           // throw new NotImplementedException();
         }
     }
 }

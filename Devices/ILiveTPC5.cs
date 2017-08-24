@@ -44,7 +44,7 @@ namespace ILiveLib
                 rdata.Clear();
             }
             byte[] sendBytes = Encoding.ASCII.GetBytes(serialData);
-           // ILiveDebug.Instance.WriteLine(ILiveUtil.ToHexString(sendBytes));
+            ILiveDebug.Instance.WriteLine("OnDataReceived:"+ILiveUtil.ToHexString(sendBytes));
 
             try
             {
