@@ -7,23 +7,13 @@ using Crestron.SimplSharpPro;
 
 namespace ILiveLib
 {
-    public delegate void NetDataReceivedEventHandler(INetPortDevice device, NetPortSerialDataEventArgs args);
-    public class NetPortSerialDataEventArgs : EventArgs
-    {
-        // 摘要:
-        //     The serial data received on the com port.
-        public string SerialData = null;
-        //
-        // 摘要:
-        //     String encoding format received from the device.
-        public eStringEncoding SerialEncoding = eStringEncoding.eEncodingASCII;
-    }
+
     public interface INetPortDevice
     {
         //
         // 摘要:
         //     Net data receive event handler
-        event NetDataReceivedEventHandler NetDataReceived;
+        event DataReceivedEventHandler NetDataReceived;
 
         // 摘要:
         //     Function to send a string out of the ComPort.

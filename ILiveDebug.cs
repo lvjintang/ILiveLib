@@ -10,7 +10,7 @@ namespace ILiveLib
     {
         public static readonly ILiveDebug Instance = new ILiveDebug();
 
-        public NetDataReceivedEventHandler DebugDataReceived
+        public DataReceivedEventHandler DebugDataReceived
         {
             set
             {

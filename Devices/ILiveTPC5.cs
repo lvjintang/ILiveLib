@@ -21,7 +21,7 @@ namespace ILiveLib
             try
             {
                 this.iserver = port;
-                this.iserver.NetDataReceived += new NetDataReceivedEventHandler(iserver_NetDataReceived);
+                this.iserver.NetDataReceived += new DataReceivedEventHandler(iserver_NetDataReceived);
 
             }
             catch (Exception ex)
@@ -30,9 +30,9 @@ namespace ILiveLib
             }
         }
 
-        public void iserver_NetDataReceived(INetPortDevice device, NetPortSerialDataEventArgs args)
+        void iserver_NetDataReceived(object sender, string message, EventArgs e)
         {
-            OnDataReceived(args.SerialData);
+            OnDataReceived(message);
         }
 
         List<byte> rdata = new List<byte>(6);

@@ -27,8 +27,9 @@ namespace ILiveLib.Remoting
             try
             {
                 this.tcpClient = new ILiveTCPClient("smart.jtang.cc", 6000, 4096);
-                this.tcpClient.ConnectedEvent += new NewConnectionEventHandler(tcpClient_ConnectedEvent);
-                this.tcpClient.NetDataReceived += new NetDataReceivedEventHandler(tcpClient_NetDataReceived);
+                this.tcpClient.NewConnection += new NewConnectionEventHandler(tcpClient_NewConnection);
+                this.tcpClient.Disconnected += new DisconnectedEventHandler(tcpClient_Disconnected);
+                this.tcpClient.NetDataReceived += new DataReceivedEventHandler(tcpClient_DataReceived);
                 this.tcpClient.Start();
                 //初始化Socket
                // tcp = new TCPClient("smart.jtang.cc",6000,4096);
@@ -42,84 +43,39 @@ namespace ILiveLib.Remoting
             }
         }
 
-        void tcpClient_NetDataReceived(INetPortDevice device, NetPortSerialDataEventArgs args)
+        void tcpClient_DataReceived(object sender, string message, EventArgs e)
         {
-            ILiveDebug.Instance.WriteLine("RemotingData:" + args.SerialData);
-            //throw new NotImplementedException();
+            ILiveDebug.Instance.WriteLine("RemotingData:" + message);
         }
 
-        void tcpClient_ConnectedEvent(EventArgs e)
+        private bool HertEnable = false;
+        void tcpClient_Disconnected(object sender, EventArgs e)
         {
-            this.Send(Newtonsoft.Json.JsonConvert.SerializeObject(client));
-           // ILiveDebug.Instance.WriteLine("RemotingConnected");
+            ILiveDebug.Instance.WriteLine("TCPClient:SOCKET_STATUS_NO_CONNECT Wait 60s");
+
+            this.HertEnable = false;
+            Thread.Sleep(60000);
+            this.tcpClient.Start();
         }
-        //private void Conn()
-        //{
-        //    if (this.tcp!=null)
-        //    {
-        //        //连接到服务器
-        //        SocketErrorCodes codes= tcp.ConnectToServerAsync(this.TCPClientConnectCallback);
-        //        ILiveDebug.Instance.WriteLine("ILiveRemoting:Conn:" + codes.ToString());
-        //    }
-        //}
-        //void tcp_SocketStatusChange(TCPClient myTCPClient, SocketStatus clientSocketStatus)
-        //{
-        //  //  ILiveDebug.Instance.WriteLine("ILiveRemoting:tcp_SocketStatusChange:" + clientSocketStatus.ToString());
-        //    if (clientSocketStatus==SocketStatus.SOCKET_STATUS_NO_CONNECT)
-        //    {
-        //        Thread.Sleep(60000);
-        //        this.Conn();
-        //    }
-        //   // throw new NotImplementedException();
-        //}
-        ///// <summary>
-        ///// 连接到服务器成功后回调函数
-        ///// </summary>
-        ///// <param name="myTCPClient"></param>
-        //public void TCPClientConnectCallback(TCPClient myTCPClient)
-        //{
-        //    if (myTCPClient.ClientStatus==SocketStatus.SOCKET_STATUS_NO_CONNECT)
-        //    {
-        //        Thread.Sleep(60000);
-        //        this.Conn();
-        //    }
-        //    if (myTCPClient.ClientStatus == SocketStatus.SOCKET_STATUS_CONNECTED)
-        //    {
-        //        Thread.Sleep(1000);
-        //        if (this.ConnectedEvent!=null)
-        //        {
-        //            this.ConnectedEvent(new EventArgs());
-                   
-        //        }
-        //    }
-        //  //  ILiveDebug.Instance.WriteLine("ILiveRemoting:TCPClientConnectCallback:"+myTCPClient.ClientStatus);
 
-        //    myTCPClient.ReceiveDataAsync(this.DataReceive);
-        //}
-        ///// <summary>
-        ///// 数据接收回调函数
-        ///// </summary>
-        ///// <param name="myTCPClient"></param>
-        ///// <param name="numberOfBytesReceived"></param>
-        //void DataReceive(TCPClient myTCPClient, int numberOfBytesReceived)
-        //{
-        //   // ILiveDebug.Instance.WriteLine("ILiveRemoting:DataReceive");
+        void tcpClient_NewConnection(EventArgs e)
+        {
+            this.HertEnable = true;
+            new Thread(this.SendHeart,this,Crestron.SimplSharpPro.CrestronThread.Thread.eThreadStartOptions.Running);
+        }
 
 
-        //    string messageReceived = string.Empty;
-        //    byte[] readBuffer = new byte[numberOfBytesReceived];
-        //    Array.Copy(myTCPClient.IncomingDataBuffer, readBuffer, numberOfBytesReceived);
-
-        //    if (DataReceived != null)
-        //    {
-        //        DataReceived(this, readBuffer, EventArgs.Empty);
-        //    }
-
-        //    myTCPClient.ReceiveDataAsync(this.DataReceive);
-
-        //}
-
-
+        public object SendHeart(object o)
+        {
+            while (this.HertEnable)
+            {
+               
+                this.Send(Newtonsoft.Json.JsonConvert.SerializeObject(client));
+                Thread.Sleep(60000);
+                
+            }
+            return o;
+        }
         public void Send(string p)
         {
             this.tcpClient.Send(p);

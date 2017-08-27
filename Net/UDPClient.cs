@@ -14,6 +14,8 @@ namespace ILiveLib
     /// </summary>
     public class UDPClient : INetPortDevice
     {
+        public event DataReceivedEventHandler NetDataReceived;
+
         public UDPServer server = null;
 
         public string host = string.Empty;
@@ -69,7 +71,7 @@ namespace ILiveLib
                 string messageReceived = Encoding.GetEncoding(28591).GetString(myUDPServer.IncomingDataBuffer, 0, numberOfBytesReceived);
                 if (this.NetDataReceived!=null)
                 {
-                    NetDataReceived(this, new NetPortSerialDataEventArgs() { SerialData = messageReceived, SerialEncoding = eStringEncoding.eEncodingASCII });
+                    NetDataReceived(this, messageReceived, null);
 
                 }
             }
@@ -94,7 +96,6 @@ namespace ILiveLib
 
         #region INetPortDevice 成员
 
-        public event NetDataReceivedEventHandler NetDataReceived;
 
         public void Send(string data)
         {

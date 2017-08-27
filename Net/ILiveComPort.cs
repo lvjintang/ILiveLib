@@ -70,12 +70,12 @@ namespace ILiveLib
            // ILiveDebug.Instance.WriteLine(ReceivingComPort.ID + "COMDebug:" + ILiveUtil.ToHexString(sendBytes) );
             if (this.NetDataReceived!=null)
             {
-                this.NetDataReceived(this, new NetPortSerialDataEventArgs() { SerialData = args.SerialData, SerialEncoding = args.SerialEncoding });
+                this.NetDataReceived(this,args.SerialData,null);
             }
         }
         #region INetPortDevice 成员
 
-        public event NetDataReceivedEventHandler NetDataReceived;
+        public event DataReceivedEventHandler NetDataReceived;
 
         public void Send(string dataToTransmit)
         {

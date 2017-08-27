@@ -20,8 +20,11 @@ namespace ILiveLib
         //public delegate void BytesReceivedEventHandler(Object sender, byte[] data, EventArgs e);
 
         //public event BytesReceivedEventHandler DataReceived;
+        public event DataReceivedEventHandler NetDataReceived;
 
-        public event NewConnectionEventHandler ConnectedEvent;
+        public event DisconnectedEventHandler Disconnected;
+
+        public event NewConnectionEventHandler NewConnection;
 
         TCPClient tcp = null;
         public ILiveTCPClient(string addr,int remoteport,int localport)
@@ -59,12 +62,13 @@ namespace ILiveLib
         void tcp_SocketStatusChange(TCPClient myTCPClient, SocketStatus clientSocketStatus)
         {
             //  ILiveDebug.Instance.WriteLine("ILiveRemoting:tcp_SocketStatusChange:" + clientSocketStatus.ToString());
-            if (clientSocketStatus == SocketStatus.SOCKET_STATUS_NO_CONNECT)
+            if (clientSocketStatus == SocketStatus.SOCKET_STATUS_LINK_LOST || clientSocketStatus==SocketStatus.SOCKET_STATUS_NO_CONNECT)
             {
-                Thread.Sleep(60000);
-                this.Conn();
+                if (this.Disconnected!=null)
+                {
+                    this.Disconnected(this, null);
+                }
             }
-            // throw new NotImplementedException();
         }
         /// <summary>
         /// 连接到服务器成功后回调函数
@@ -72,25 +76,29 @@ namespace ILiveLib
         /// <param name="myTCPClient"></param>
         public void TCPClientConnectCallback(TCPClient myTCPClient)
         {
-            if (myTCPClient.ClientStatus == SocketStatus.SOCKET_STATUS_NO_CONNECT)
+            if (myTCPClient.ClientStatus != SocketStatus.SOCKET_STATUS_CONNECTED)
             {
+                //连接失败 重新连接
+                ILiveDebug.Instance.WriteLine("TCPClient:SOCKET_STATUS_NO_CONNECT Wait 60s");
                 Thread.Sleep(60000);
                 this.Conn();
             }
             if (myTCPClient.ClientStatus == SocketStatus.SOCKET_STATUS_CONNECTED)
             {
                 Thread.Sleep(1000);
-                if (this.ConnectedEvent != null)
+                if (this.NewConnection != null)
                 {
                     ILiveDebug.Instance.WriteLine("TCPClient:" + myTCPClient.ClientStatus.ToString());
 
-                    this.ConnectedEvent(new EventArgs());
+                    this.NewConnection(null);
 
                 }
+
+                myTCPClient.ReceiveDataAsync(this.DataReceive);
+
             }
             //  ILiveDebug.Instance.WriteLine("ILiveRemoting:TCPClientConnectCallback:"+myTCPClient.ClientStatus);
 
-            myTCPClient.ReceiveDataAsync(this.DataReceive);
         }
         /// <summary>
         /// 数据接收回调函数
@@ -108,13 +116,16 @@ namespace ILiveLib
                 string messageReceived = Encoding.GetEncoding(28591).GetString(readBuffer, 0, numberOfBytesReceived);
                 if (this.NetDataReceived != null)
                 {
-                    NetDataReceived(this, new NetPortSerialDataEventArgs() { SerialData = messageReceived, SerialEncoding = eStringEncoding.eEncodingASCII });
+                    NetDataReceived(this, messageReceived, null);
 
                 }
             }
+            if (myTCPClient.ClientStatus==SocketStatus.SOCKET_STATUS_CONNECTED)
+            {
+                myTCPClient.ReceiveDataAsync(this.DataReceive);
 
+            }
 
-            myTCPClient.ReceiveDataAsync(this.DataReceive);
 
         }
 
@@ -124,12 +135,11 @@ namespace ILiveLib
         public void Start()
         {
             this.Conn();
-            // new Thread(new ThreadCallbackFunction(this.Conn), this, Thread.eThreadStartOptions.Running);
         }
 
 
 
-        public event NetDataReceivedEventHandler NetDataReceived;
+   
 
         public void Send(string dataToTransmit)
         {
@@ -147,5 +157,10 @@ namespace ILiveLib
             }
         }
 
+
+        #region INetPortDevice 成员
+
+       
+        #endregion
     }
 }
