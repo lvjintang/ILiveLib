@@ -794,11 +794,11 @@ Main Zone Source M-Xport,@SRC:N
         }
         public void VolUp()
         {
-            this.Send("ZMUP\r");
+            this.Send("MVUP\r");
         }
         public void VolDown()
         {
-            this.Send("ZMDOWN\r");
+            this.Send("MVDOWN\r");
 
         }
         public void Mute(bool f)

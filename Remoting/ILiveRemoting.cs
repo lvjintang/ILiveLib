@@ -10,19 +10,11 @@ namespace ILiveLib.Remoting
 {
     public class ILiveRemoting
     {
-        /// <summary>
-        /// 数据接收委托
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="message"></param>
-        /// <param name="e"></param>
-        public delegate void BytesReceivedEventHandler(Object sender, byte[] data, EventArgs e);
-
-        public event BytesReceivedEventHandler DataReceived;
-
-        TCPClient tcp = null;
-        public ILiveRemoting()
+        ILiveTCPClient tcpClient = null;
+        private ClientInfo client = null;
+        public ILiveRemoting(ClientInfo info)
         {
+            this.client = info;
             this.InitConn();
 
         }
@@ -34,10 +26,14 @@ namespace ILiveLib.Remoting
 
             try
             {
+                this.tcpClient = new ILiveTCPClient("smart.jtang.cc", 6000, 4096);
+                this.tcpClient.ConnectedEvent += new NewConnectionEventHandler(tcpClient_ConnectedEvent);
+                this.tcpClient.NetDataReceived += new NetDataReceivedEventHandler(tcpClient_NetDataReceived);
+                this.tcpClient.Start();
                 //初始化Socket
-                tcp = new TCPClient("smart.jtang.cc",6000,4096);
+               // tcp = new TCPClient("smart.jtang.cc",6000,4096);
            
-                tcp.SocketStatusChange += new TCPClientSocketStatusChangeEventHandler(tcp_SocketStatusChange);
+              //  tcp.SocketStatusChange += new TCPClientSocketStatusChangeEventHandler(tcp_SocketStatusChange);
                 //this.Conn();
             }
             catch (Exception e)
@@ -45,81 +41,89 @@ namespace ILiveLib.Remoting
                 ErrorLog.Error("Error in Remoting: {0}", e.Message);
             }
         }
-        private void Conn()
+
+        void tcpClient_NetDataReceived(INetPortDevice device, NetPortSerialDataEventArgs args)
         {
-            if (this.tcp!=null)
-            {
-                //连接到服务器
-                SocketErrorCodes codes= tcp.ConnectToServerAsync(this.TCPClientConnectCallback);
-                ILiveDebug.Instance.WriteLine("ILiveRemoting:Conn:" + codes.ToString());
-            }
+            ILiveDebug.Instance.WriteLine("RemotingData:" + args.SerialData);
+            //throw new NotImplementedException();
         }
-        void tcp_SocketStatusChange(TCPClient myTCPClient, SocketStatus clientSocketStatus)
+
+        void tcpClient_ConnectedEvent(EventArgs e)
         {
-          //  ILiveDebug.Instance.WriteLine("ILiveRemoting:tcp_SocketStatusChange:" + clientSocketStatus.ToString());
-            if (clientSocketStatus==SocketStatus.SOCKET_STATUS_NO_CONNECT)
-            {
-                Thread.Sleep(360000);
-                this.Conn();
-            }
-           // throw new NotImplementedException();
+            this.Send(Newtonsoft.Json.JsonConvert.SerializeObject(client));
+           // ILiveDebug.Instance.WriteLine("RemotingConnected");
         }
-        /// <summary>
-        /// 连接到服务器成功后回调函数
-        /// </summary>
-        /// <param name="myTCPClient"></param>
-        public void TCPClientConnectCallback(TCPClient myTCPClient)
-        {
-            if (myTCPClient.ClientStatus==SocketStatus.SOCKET_STATUS_NO_CONNECT)
-            {
-                Thread.Sleep(360000);
-                this.Conn();
-            }
-          //  ILiveDebug.Instance.WriteLine("ILiveRemoting:TCPClientConnectCallback:"+myTCPClient.ClientStatus);
+        //private void Conn()
+        //{
+        //    if (this.tcp!=null)
+        //    {
+        //        //连接到服务器
+        //        SocketErrorCodes codes= tcp.ConnectToServerAsync(this.TCPClientConnectCallback);
+        //        ILiveDebug.Instance.WriteLine("ILiveRemoting:Conn:" + codes.ToString());
+        //    }
+        //}
+        //void tcp_SocketStatusChange(TCPClient myTCPClient, SocketStatus clientSocketStatus)
+        //{
+        //  //  ILiveDebug.Instance.WriteLine("ILiveRemoting:tcp_SocketStatusChange:" + clientSocketStatus.ToString());
+        //    if (clientSocketStatus==SocketStatus.SOCKET_STATUS_NO_CONNECT)
+        //    {
+        //        Thread.Sleep(60000);
+        //        this.Conn();
+        //    }
+        //   // throw new NotImplementedException();
+        //}
+        ///// <summary>
+        ///// 连接到服务器成功后回调函数
+        ///// </summary>
+        ///// <param name="myTCPClient"></param>
+        //public void TCPClientConnectCallback(TCPClient myTCPClient)
+        //{
+        //    if (myTCPClient.ClientStatus==SocketStatus.SOCKET_STATUS_NO_CONNECT)
+        //    {
+        //        Thread.Sleep(60000);
+        //        this.Conn();
+        //    }
+        //    if (myTCPClient.ClientStatus == SocketStatus.SOCKET_STATUS_CONNECTED)
+        //    {
+        //        Thread.Sleep(1000);
+        //        if (this.ConnectedEvent!=null)
+        //        {
+        //            this.ConnectedEvent(new EventArgs());
+                   
+        //        }
+        //    }
+        //  //  ILiveDebug.Instance.WriteLine("ILiveRemoting:TCPClientConnectCallback:"+myTCPClient.ClientStatus);
 
-            myTCPClient.ReceiveDataAsync(this.DataReceive);
-        }
-        /// <summary>
-        /// 数据接收回调函数
-        /// </summary>
-        /// <param name="myTCPClient"></param>
-        /// <param name="numberOfBytesReceived"></param>
-        void DataReceive(TCPClient myTCPClient, int numberOfBytesReceived)
-        {
-           // ILiveDebug.Instance.WriteLine("ILiveRemoting:DataReceive");
+        //    myTCPClient.ReceiveDataAsync(this.DataReceive);
+        //}
+        ///// <summary>
+        ///// 数据接收回调函数
+        ///// </summary>
+        ///// <param name="myTCPClient"></param>
+        ///// <param name="numberOfBytesReceived"></param>
+        //void DataReceive(TCPClient myTCPClient, int numberOfBytesReceived)
+        //{
+        //   // ILiveDebug.Instance.WriteLine("ILiveRemoting:DataReceive");
 
 
-            string messageReceived = string.Empty;
-            byte[] readBuffer = new byte[numberOfBytesReceived];
-            Array.Copy(myTCPClient.IncomingDataBuffer, readBuffer, numberOfBytesReceived);
+        //    string messageReceived = string.Empty;
+        //    byte[] readBuffer = new byte[numberOfBytesReceived];
+        //    Array.Copy(myTCPClient.IncomingDataBuffer, readBuffer, numberOfBytesReceived);
 
-            if (DataReceived != null)
-            {
-                DataReceived(this, readBuffer, EventArgs.Empty);
-            }
+        //    if (DataReceived != null)
+        //    {
+        //        DataReceived(this, readBuffer, EventArgs.Empty);
+        //    }
 
-            myTCPClient.ReceiveDataAsync(this.DataReceive);
+        //    myTCPClient.ReceiveDataAsync(this.DataReceive);
 
-        }
+        //}
 
 
         public void Send(string p)
         {
-
-            byte[] datas = Encoding.GetEncoding(28591).GetBytes(p);
-            if (tcp!=null&&tcp.ClientStatus==SocketStatus.SOCKET_STATUS_CONNECTED)
-            {
-               // ILiveDebug.Instance.WriteLine("ILiveRemoting:Send");
-
-                tcp.SendData(datas, datas.Length);
-
-            }
+            this.tcpClient.Send(p);
         }
 
-        public void Start()
-        {
-            this.Conn();
-           // new Thread(new ThreadCallbackFunction(this.Conn), this, Thread.eThreadStartOptions.Running);
-        }
     }
 }

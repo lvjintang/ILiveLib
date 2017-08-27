@@ -30,6 +30,7 @@ namespace ILiveLib
         public void PowerOn()
         {
 
+            //404D41494E3A5057523D4F6E0D0A  
             //404D41494E3A5057523D4F6E0D0A
             byte[] sendBytes = new byte[] {0x40,0x4D,0x41,0x49,0x4E,0x3A,0x50,0x57,0x52,0x3D,0x4F,0x6E,0x0D,0x0A  };
             ILiveDebug.Instance.WriteLine("SmallAVPowerOn");
@@ -37,6 +38,7 @@ namespace ILiveLib
             this.server.Send(sendBytes);
 
             Thread.Sleep(200);
+            this.server.Send(sendBytes);
         }
         public void PowerOff()
         {
@@ -51,6 +53,7 @@ namespace ILiveLib
         }
         public void VolUp()
         {
+            //404D41494E3A564F4C3D55700D0A
             byte[] sendBytes = new byte[] { 0x40,0x4D,0x41,0x49,0x4E,0x3A,0x56,0x4F,0x4C,0x3D,0x55,0x70, 0x0D, 0x0A };
             //string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
             this.server.Send(sendBytes);
@@ -59,6 +62,7 @@ namespace ILiveLib
         }
         public void VolDown()
         {
+            // 404D41494E3A564F4C3D446F776E0D0A
             byte[] sendBytes = new byte[] { 0x40,0x4D,0x41,0x49,0x4E,0x3A,0x56,0x4F,0x4C,0x3D,0x44,0x6F,0x77,0x6E, 0x0D, 0x0A };
             //string data = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
             this.server.Send(sendBytes);
