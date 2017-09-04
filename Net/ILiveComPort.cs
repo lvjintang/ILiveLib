@@ -60,7 +60,7 @@ namespace ILiveLib
                                          ComPort.eComSoftwareHandshakeType.ComspecSoftwareHandshakeNone,
                                          false);
 
-                ILiveDebug.Instance.WriteLine("COM Reg Sucess");
+                ILiveDebug.Instance.WriteLine("COM Reg Sucess" + comspecProtocolRS232.ToString() + baudrates.ToString());
             }
         }
         void com_SerialDataReceived(ComPort ReceivingComPort, ComPortSerialDataEventArgs args)
@@ -83,7 +83,8 @@ namespace ILiveLib
             {
                 try
                 {
-                  //  ILiveDebug.Instance.WriteLine("COM" + this.com.ID + ":" + dataToTransmit);
+                    ILiveDebug.Instance.WriteLine("COM" + this.com.ID + ":" + dataToTransmit);
+
                     this.com.Send(dataToTransmit);
                 }
                 catch (Exception)
