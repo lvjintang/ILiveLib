@@ -102,6 +102,7 @@
     <Compile Include="Net\ILiveTCPClient.cs" />
     <Compile Include="Net\SocketEvent.cs" />
     <Compile Include="Remoting\ClientInfo.cs" />
+    <Compile Include="Remoting\ILiveOray.cs" />
     <Compile Include="Remoting\ILiveRemoting.cs" />
     <Compile Include="Util\ILiveUtil.cs" />
     <Compile Include="Net\HttpUtil.cs" />
