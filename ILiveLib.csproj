@@ -83,6 +83,7 @@
     <Compile Include="Devices\ILiveInfocus.cs" />
     <Compile Include="Devices\ILiveIRACC.cs" />
     <Compile Include="Devices\ILiveIsin.cs" />
+    <Compile Include="Devices\ILiveJingMian.cs" />
     <Compile Include="Devices\ILiveLDI3.cs" />
     <Compile Include="Devices\ILiveMarantz.cs" />
     <Compile Include="Devices\ILiveOppo.cs" />
