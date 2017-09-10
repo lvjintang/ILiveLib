@@ -102,11 +102,7 @@
     <Compile Include="Net\ILiveTCPClient.cs" />
     <Compile Include="Net\SocketEvent.cs" />
     <Compile Include="Remoting\ClientInfo.cs" />
-<<<<<<< HEAD
-    <Compile Include="Remoting\DDnsOray.cs" />
-=======
     <Compile Include="Remoting\ILiveOray.cs" />
->>>>>>> 7b46d9a35c8103599fad2229a354da89195665e2
     <Compile Include="Remoting\ILiveRemoting.cs" />
     <Compile Include="Util\ILiveUtil.cs" />
     <Compile Include="Net\HttpUtil.cs" />

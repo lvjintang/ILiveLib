@@ -9,21 +9,21 @@ namespace ILiveLib
 {
     public class ILiveOray
     {
-        private string url = "http://{0}:{1}@ddns.oray.com/ph/update?hostname={2}";
+        private string url = "http://ddns.oray.com/ph/update?hostname={0}";
 
         public void UpdateHost(string user, string pass,string host)
         {
-            String querys = string.Format(url,user,pass,host);
-
+            String querys = string.Format(url, host);
             Crestron.SimplSharp.Net.Http.HttpClient client = new Crestron.SimplSharp.Net.Http.HttpClient();
 
-            HttpClientRequest request = this.GetRequest(url);
+            string auth = "Basic " + Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(user + ":" + pass));
+            HttpClientRequest request = this.GetRequest(querys, auth);
 
 
             try
             {
-                HttpClientResponse httpResponse = client.Dispatch(request);
                 ILiveDebug.Instance.WriteLine("ILiveOray:" + querys);
+                HttpClientResponse httpResponse = client.Dispatch(request);
                 httpResponse.Encoding = Encoding.UTF8;
                 string html = httpResponse.ContentString;
                 ILiveDebug.Instance.WriteLine(html);
@@ -35,12 +35,14 @@ namespace ILiveLib
             }
         }
 
-        public HttpClientRequest GetRequest(string aUrl)
+        public HttpClientRequest GetRequest(string aUrl,string auth)
         {
             HttpClientRequest httpClientRequest = new HttpClientRequest();
             httpClientRequest.Url.Parse(aUrl);
             httpClientRequest.Header.SetHeaderValue("Host", "ddns.oray.com");
-            //httpClientRequest.Header.SetHeaderValue("Authorization", APPCode);
+            httpClientRequest.Header.SetHeaderValue("Authorization",auth);
+            httpClientRequest.Header.SetHeaderValue("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1");
+            httpClientRequest.Header.SetHeaderValue("Upgrade-Insecure-Requests", "1");
             httpClientRequest.KeepAlive = true;
             return httpClientRequest;
         }

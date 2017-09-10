@@ -8,6 +8,7 @@ namespace ILiveLib
 {
     /// <summary>
     /// 施德朗5寸触摸屏
+    /// //55 屏幕ID 高位 低位 校验位 0D
     /// </summary>
     public class ILiveTPC5
     {
@@ -72,7 +73,7 @@ namespace ILiveLib
             try
             {
                 ILiveDebug.Instance.WriteLine(ILiveUtil.ToHexString(rdata.ToArray()));
-
+                //55 屏幕ID 高位 低位 校验位 0D
                 if (rdata.Count == 6 && rdata[0] == 0x55 && rdata[5] == 0x0D)
                 {
 
