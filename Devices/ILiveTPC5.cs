@@ -71,8 +71,6 @@ namespace ILiveLib
         {
             try
             {
-                ILiveDebug.Instance.WriteLine(ILiveUtil.ToHexString(rdata.ToArray()));
-
                 if (rdata.Count == 6 && rdata[0] == 0x55 && rdata[5] == 0x0D)
                 {
 

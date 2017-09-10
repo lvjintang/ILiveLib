@@ -35,25 +35,6 @@ namespace ILiveLib
 
         }
 
-        ComPort comport = null;
-        public ILiveIsinRelay(ComPort port)
-        {
-            try
-            {
-                this.comport = port;
-            }
-            catch (Exception ex)
-            {
-                ILiveDebug.Instance.WriteLine(ex.Message);
-            }
-        }
-        public ILiveIsinRelay(int addr, ComPort port)
-            : this(port)
-        {
-            this.addr = addr;
-
-        }
-
         public void RelayOpen()
         {
             this.Status.Relay0 = true;
@@ -68,7 +49,7 @@ namespace ILiveLib
             this.Status.Relay9 = true;
             this.Status.Relay10 = true;
             this.Status.Relay11 = true;
-            this.Relay8SW8(addr, 255, 15, true);
+            this.Relay8SW8(addr, 255, 15, 1);
             Thread.Sleep(1000);
             // this.Relay8SW8(4, 127, 15, false);
             // Thread.Sleep(1000);
@@ -89,53 +70,82 @@ namespace ILiveLib
             this.Status.Relay10 = false;
             this.Status.Relay11 = false;
 
-            this.Relay8SW8(addr, 255, 15, false);
+            this.Relay8SW8(addr, 255, 15, 0);
             Thread.Sleep(1000);
             // this.Relay8SW8(4, 127, 15, true);
             // Thread.Sleep(1000);
             //  this.Relay8SW8(5, 255, 15, true);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="port1"></param>
+        /// <param name="port2"></param>
+        /// <param name="states">1开 2关 3置反</param>
         public void Relay8SW8(int port1, int port2, bool states)
         {
-            this.Relay8SW8(this.addr, port1, port2, states);
+            byte[] sendBytes = this.BuldCMDRelay(this.addr, port1, port2, 1);
+            this.SendCMD(sendBytes);
+           // this.Relay8SW8(this.addr, port1, port2, states);
         }
-        private void Relay8SW8(int address, int port1, int port2, bool states)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="port1"></param>
+        /// <param name="port2"></param>
+        /// <param name="states">1开 2关 3置反</param>
+        private void Relay8SW8(int address, int port1, int port2, int states)
         {
-            /*
-             * 1 B2 协议头 
-             * 2 00 设备类型 
-             * 3 1-99 设备编号
-             * 4 A1 功能
-             * 5 00-FF 
-             *  00 选中 0 路 
-             *  FF 选中 8 路 
-             *  通道 5－12
-             * 6
-             *  00-FF 
-             *  00 选中 0 路 
-             *  FF 选中 8 路
-             *  通道 1－4
-             * 7 00 选中通道关 01 选中通道开 02 选中通道反 通道状态
-             * 8 Check 校验和高位（2-7 位校验） 
-             * 9 Check 校验和低位 10 2B 协议尾 
-             */
-            // byte[] checkarr1 = new byte[2];
-            // this.ConvertIntToByteArray(address + port1 + port1 + 162, ref checkarr1);
-            byte[] checkarr1 = BitConverter.GetBytes(address + port1 + port2 + 162);
-            byte[] checkarr2 = BitConverter.GetBytes(address + port1 + port2 + 161);
-            // this.ConvertIntToByteArray(address + port1 + port1 + 161, ref checkarr2);
+            byte[] sendBytes = this.BuldCMDRelay(address, port1, port2, 1);
+            this.SendCMD(sendBytes);
 
-            byte[] sendBytes = new byte[] { 0xB2, (byte)address, 0xA1, (byte)port1, (byte)port2, 0x00, checkarr2[0], 0x2B };
-            if (states)
-            {
-                sendBytes = new byte[] { 0xB2, (byte)address, 0xA1, (byte)port1, (byte)port2, 0x01, checkarr1[0], 0x2B };
-            }
-            ILiveDebug.Instance.WriteLine("Relay:" + ILiveUtil.ToHexString(sendBytes));
-            string cmd = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
+        }
 
+        private void SendCMD(byte[] cmd)
+        {
+            ILiveDebug.Instance.WriteLine("Relay:" + ILiveUtil.ToHexString(cmd));
             this.port.Send(cmd);
             Thread.Sleep(500);
+        }
+        /// <summary>
+        /// 构建指令
+        /// </summary>
+        /// <param name="id">ID号</param>
+        /// <param name="a">通道A 8路</param>
+        /// <param name="b">通道B 4路</param>
+        /// <param name="fun">状态 开：1、关：0、置反：2</param>
+        /// <returns></returns>
+        private byte[] BuldCMDRelay(int id, int a, int b, int fun)
+        {
+            //byte[] checkarr1 = BitConverter.GetBytes(id + 161 + a + b + fun);
 
+            byte[] sendBytes = new byte[] { 178, (byte)id, 161, (byte)a, (byte)b, (byte)fun, (byte)fun, 0, 43 };
+            for (int i = 1; i < 6; i++)
+            {
+                sendBytes[6] += sendBytes[i];
+            }
+            return sendBytes;
+        }
+        /// <summary>
+        /// 构建调光指令
+        /// </summary>
+        /// <param name="id">地址</param>
+        /// <param name="type">功能类型 开关：162 置反：163 调光+：163 调光-：163 设启亮点：164</param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="fun">状态 开：255 关：0 其它：0-255  置反：2 亮度+：1 亮度-：0</param>
+        /// <returns></returns>
+        private byte[] BuldCMDDim(int id, int type, int a, int b, int fun)
+        {
+            //  byte[] checkarr1 = BitConverter.GetBytes(id + 161 + a + b + fun);
+
+            byte[] sendBytes = new byte[] { 178, (byte)id, (byte)type, (byte)a, (byte)b, (byte)fun, (byte)fun, 0, 43 };
+            for (int i = 1; i < 6; i++)
+            {
+                sendBytes[6] += sendBytes[i];
+            }
+            return sendBytes;
         }
     }
 
@@ -248,6 +258,23 @@ namespace ILiveLib
             byte[] checkarr1 = BitConverter.GetBytes(addr + fun + port1+port2+p);
 
             byte[] sendBytes = new byte[] { 0xB2, addr, fun, port1, port2,p, checkarr1[0], 0x2B };
+            return sendBytes;
+        }
+
+        /// <summary>
+        /// 构建场景指令
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <param name="tpye">类型 设置场景：165 保存场景 166 调用场景：167</param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        private byte[] BuildCMDScence(int id, int type, int index)
+        {
+            byte[] sendBytes = new byte[] { 178, (byte)(id+101), (byte)type, 0, 0, (byte)index, 0, 0, 43 };
+            for (int i = 1; i < 6; i++)
+            {
+                sendBytes[6] += sendBytes[i];
+            }
             return sendBytes;
         }
     }
