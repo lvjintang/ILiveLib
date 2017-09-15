@@ -72,11 +72,9 @@ namespace ILiveLib
         {
             try
             {
-<<<<<<< HEAD
                 ILiveDebug.Instance.WriteLine(ILiveUtil.ToHexString(rdata.ToArray()));
                 //55 屏幕ID 高位 低位 校验位 0D
-=======
->>>>>>> 4f07c2dc2207473f738115137f3dbc305e351c29
+
                 if (rdata.Count == 6 && rdata[0] == 0x55 && rdata[5] == 0x0D)
                 {
 

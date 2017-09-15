@@ -69,7 +69,6 @@ namespace ILiveLib.WebSocketServer
         {
             //设置服务端端口号
             ServerPort = 7002;
-          //  ServerLocation = string.Format("ws://{0}:{1}/chat", getLocalmachineIPAddress(),ServerPort);
             Initialize();
 
         }

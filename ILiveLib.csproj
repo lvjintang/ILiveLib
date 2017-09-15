@@ -96,6 +96,7 @@
     <Compile Include="Devices\ILiveYamaha.cs" />
     <Compile Include="Devices\ILiveYelaLock.cs" />
     <Compile Include="Devices\ILiveYodar.cs" />
+    <Compile Include="Devices\ILiveYork.cs" />
     <Compile Include="Devices\ILiveZQWL16.cs" />
     <Compile Include="ILiveDebug.cs" />
     <Compile Include="Net\ILiveComPort.cs" />
