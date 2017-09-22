@@ -1,0 +1,7 @@
+D:\ILive\Project\Common\ILiveLib\obj\Release\ResolveAssemblyReference.cache
+D:\ILive\Project\Common\ILiveLib\bin\Release\ILiveLib.dll
+D:\ILive\Project\Common\ILiveLib\bin\Release\SimplSharpCryptographyInterface.dll
+D:\ILive\Project\Common\ILiveLib\bin\Release\SimplSharpNewtonsoft.dll
+D:\ILive\Project\Common\ILiveLib\bin\Release\SimplSharpSQLHelperInterface.dll
+D:\ILive\Project\Common\ILiveLib\bin\Release\SimplSharpReflectionInterface.dll
+D:\ILive\Project\Common\ILiveLib\obj\Release\ILiveLib.dll

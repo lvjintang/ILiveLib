@@ -67,7 +67,11 @@ namespace ILiveLib
         {
           //  byte[] sendBytes = Encoding.ASCII.GetBytes(args.SerialData);
             // ILiveDebug.Instance.WriteLine("485Length:" + sendBytes.Length.ToString() + "data:" + ILiveUtil.ToHexString(sendBytes));
+<<<<<<< HEAD
           //  ILiveDebug.Instance.WriteLine(ReceivingComPort.ID + "COMDebug:" + ILiveUtil.ToHexString(sendBytes) );
+=======
+            ILiveDebug.Instance.WriteLine(ReceivingComPort.ID + "COMDebug:" + ILiveUtil.ToHexString(sendBytes) );
+>>>>>>> 189a754e5397068ad0977d1d33b7f301799f646d
             if (!String.IsNullOrEmpty(args.SerialData))
             {
                 if (this.NetDataReceived != null)
@@ -87,9 +91,10 @@ namespace ILiveLib
             {
                 try
                 {
-                    ILiveDebug.Instance.WriteLine("COM" + this.com.ID + ":" + dataToTransmit);
-
+              
                     this.com.Send(dataToTransmit);
+                    ILiveDebug.Instance.WriteLine("COM" + this.com.ID + this.com.Registered+":" + dataToTransmit);
+
                 }
                 catch (Exception)
                 {

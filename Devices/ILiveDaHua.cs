@@ -15,29 +15,11 @@ namespace ILiveLib
     public class ILiveDaHua
     {
         public delegate void Push16IHandler(int id, bool iChanStatus);
-       // public event Push16IHandler Push16IEvent;
         private INetPortDevice port = null;
-        //public ComPort comDaHua;
         public ILiveDaHua(INetPortDevice com)
         {
             #region 注册串口
             this.port = com;
-            //comDaHua = com;
-            //comDaHua.SerialDataReceived += new ComPortDataReceivedEvent(comDaHua_SerialDataReceived);
-            //if (!comDaHua.Registered)
-            //{
-            //    if (comDaHua.Register() != eDeviceRegistrationUnRegistrationResponse.Success)
-            //        ErrorLog.Error("COM Port couldn't be registered. Cause: {0}", comDaHua.DeviceRegistrationFailureReason);
-            //    if (comDaHua.Registered)
-            //        comDaHua.SetComPortSpec(ComPort.eComBaudRates.ComspecBaudRate9600,
-            //                                                         ComPort.eComDataBits.ComspecDataBits8,
-            //                                                         ComPort.eComParityType.ComspecParityNone,
-            //                                                         ComPort.eComStopBits.ComspecStopBits1,
-            //                             ComPort.eComProtocolType.ComspecProtocolRS485,
-            //                             ComPort.eComHardwareHandshakeType.ComspecHardwareHandshakeNone,
-            //                             ComPort.eComSoftwareHandshakeType.ComspecSoftwareHandshakeNone,
-            //                             false);
-            //}
             #endregion
         }
 
@@ -45,12 +27,15 @@ namespace ILiveLib
         /// 多功能控制器
         /// </summary>
         /// <param name="address">地址码</param>
-        /// <param name="port">第几路 0-7</param>
+        /// <param name="port">第几路 1-8</param>
         /// <param name="states">true：闭合 false：断开</param>
         public void Relay8SW8(int address, int port, bool states)
         {
             port -= 1;
+<<<<<<< HEAD
           //  ILiveDebug.Instance.WriteLine("addr:" + address + "port:" + port + "states:" + states);
+=======
+>>>>>>> 189a754e5397068ad0977d1d33b7f301799f646d
             //  55 13 03 01 01 02 02 00 71
             byte p = (byte)(0x01 << port);
             //00000010 00000000  00000000 00000000 
@@ -91,9 +76,43 @@ namespace ILiveLib
             }
             sendBytes[8] = (byte)check;
 
+<<<<<<< HEAD
             // ILiveDebug.Instance.WriteLine("dahua:" + ILiveUtil.ToHexString(sendBytes));
+=======
+            this.port.Send(sendBytes);
+            Thread.Sleep(300);
+        }
+>>>>>>> 189a754e5397068ad0977d1d33b7f301799f646d
 
-           // string cmd = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
+        /// <summary>
+        /// 4路调光模块
+        /// </summary>
+        /// <param name="addr">地址码</param>
+        /// <param name="port">第几路1-4</param>
+        /// <param name="level">亮度0-8</param>
+        public void DIM4(int addr, int port, int level)
+        {
+            port -= 1;
+            byte cmd1 = 0x00;
+            if (level==0)
+            {
+                cmd1=0x00;
+            }
+            else if (level==10)
+            {
+                cmd1=0x80;
+            }
+            else
+            {
+                cmd1=(byte)(0x80+level);
+            }
+            byte[] sendBytes = new byte[] { 0x55, 0x34, (byte)addr, (byte)(0x01 << port), 0x01, 0x01,cmd1 , 0x00 };
+            int check = 0;
+            foreach (var item in sendBytes)
+            {
+                check += Convert.ToInt32(item);
+            }
+            sendBytes[8] = (byte)check;
 
             this.port.Send(sendBytes);
             Thread.Sleep(300);

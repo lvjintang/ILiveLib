@@ -125,19 +125,20 @@ namespace ILiveLib
         private void Send(params byte[] data)
         {
 
-            string senddata = this.GetCMDString(data);
+            byte[] sendBytes = this.GetCMDString(data);
 
 
-            //byte[] sendBytes = Encoding.GetEncoding(28591).GetBytes(senddata);
-            //ILiveDebug.Instance.WriteLine("MusicData:" + ILiveUtil.ToHexString(sendBytes));
+           // byte[] sendBytes = Encoding.GetEncoding(28591).GetBytes(senddata);
+            ILiveDebug.Instance.WriteLine("MusicData:" + ILiveUtil.ToHexString(sendBytes));
 
-            this.port.Send(senddata);
+            this.port.Send(sendBytes);
         }
-        private string GetCMDString(params byte[] senddata)
+        private byte[] GetCMDString(params byte[] senddata)
         {
             byte[] crc = this.CheckCode(senddata);
             byte[] sendBytes = this.copybyte(senddata, crc);
-            return Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
+            return sendBytes;
+           // return Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
         }
         private byte[] copybyte(byte[] a, byte[] b)
         {
