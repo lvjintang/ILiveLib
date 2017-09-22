@@ -33,6 +33,7 @@ namespace ILiveLib
 
         void iserver_NetDataReceived(object sender, string message, EventArgs e)
         {
+           // ILiveDebug.Instance.WriteLine("TPCRecData:" + message);
             OnDataReceived(message);
         }
 
@@ -45,8 +46,7 @@ namespace ILiveLib
                 rdata.Clear();
             }
             byte[] sendBytes = Encoding.ASCII.GetBytes(serialData);
-            ILiveDebug.Instance.WriteLine("OnDataReceived:"+ILiveUtil.ToHexString(sendBytes));
-
+       
             try
             {
                 foreach (var item in sendBytes)
@@ -72,11 +72,9 @@ namespace ILiveLib
         {
             try
             {
-<<<<<<< HEAD
                 ILiveDebug.Instance.WriteLine(ILiveUtil.ToHexString(rdata.ToArray()));
                 //55 屏幕ID 高位 低位 校验位 0D
-=======
->>>>>>> 4f07c2dc2207473f738115137f3dbc305e351c29
+
                 if (rdata.Count == 6 && rdata[0] == 0x55 && rdata[5] == 0x0D)
                 {
 
@@ -105,6 +103,11 @@ namespace ILiveLib
                 ILiveDebug.Instance.WriteLine(ex.Message);
 
             }
+        }
+
+        public void Send(string data)
+        {
+            this.iserver.Send(data);
         }
     }
 }

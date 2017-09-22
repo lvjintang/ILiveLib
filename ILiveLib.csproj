@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Devices\ALiYunSMS.cs" />
+    <Compile Include="Devices\ILiveASK.cs" />
     <Compile Include="Devices\ILiveBenq.cs" />
     <Compile Include="Devices\ILiveDaHua.cs" />
     <Compile Include="Devices\ILiveDM8318.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Devices\ILiveYamaha.cs" />
     <Compile Include="Devices\ILiveYelaLock.cs" />
     <Compile Include="Devices\ILiveYodar.cs" />
+    <Compile Include="Devices\ILiveYork.cs" />
     <Compile Include="Devices\ILiveZQWL16.cs" />
     <Compile Include="ILiveDebug.cs" />
     <Compile Include="Net\ILiveComPort.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Remoting\ClientInfo.cs" />
     <Compile Include="Remoting\ILiveOray.cs" />
     <Compile Include="Remoting\ILiveRemoting.cs" />
+    <Compile Include="Security\MemberManger.cs" />
     <Compile Include="Util\ILiveUtil.cs" />
     <Compile Include="Net\HttpUtil.cs" />
     <Compile Include="Net\ILiveTCPServer.cs" />

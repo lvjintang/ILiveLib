@@ -40,13 +40,6 @@ namespace ILiveLib
             //}
             #endregion
         }
-        void comDaHua_SerialDataReceived(ComPort ReceivingComPort, ComPortSerialDataEventArgs args)
-        {
-            //int exeid = 0;
-
-            // byte[] sendBytes = Encoding.ASCII.GetBytes(args.SerialData);
-            //  ILiveDebug.Instance.WriteLine("485Data:"+ILiveUtil.ToHexString(sendBytes));
-        }
 
         /// <summary>
         /// 多功能控制器
@@ -56,6 +49,8 @@ namespace ILiveLib
         /// <param name="states">true：闭合 false：断开</param>
         public void Relay8SW8(int address, int port, bool states)
         {
+            port -= 1;
+          //  ILiveDebug.Instance.WriteLine("addr:" + address + "port:" + port + "states:" + states);
             //  55 13 03 01 01 02 02 00 71
             byte p = (byte)(0x01 << port);
             //00000010 00000000  00000000 00000000 
@@ -96,7 +91,7 @@ namespace ILiveLib
             }
             sendBytes[8] = (byte)check;
 
-            // ILiveDebug.Instance.WriteLine("dahua" + ILiveUtil.ToHexString(sendBytes));
+            // ILiveDebug.Instance.WriteLine("dahua:" + ILiveUtil.ToHexString(sendBytes));
 
            // string cmd = Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
 

@@ -19,7 +19,7 @@ namespace ILiveLib.WebSocketServer
         /// <param name="sender"></param>
         /// <param name="message"></param>
         /// <param name="e"></param>
-        public delegate void DataEventHandler(string service, JObject data);
+        public delegate void DataEventHandler(string service, object data);
 
         public event DataEventHandler DataReceived;
         private WebSocketServer WSServer = null;
@@ -79,7 +79,6 @@ namespace ILiveLib.WebSocketServer
 
         void Ipad_DataReceived(object sender, string message, EventArgs e)
         {
-            //{service: "FL_getTicketStatus", version: "1.0.0",data:{ticket: "APPQrcode_2c1yvQGplGkJ9isUVwZsie4pC1y7eu"}}
             try
             {
                 JObject j = JObject.Parse(message);
@@ -91,15 +90,14 @@ namespace ILiveLib.WebSocketServer
                     this.WSServer_Send(this.BuildAnswerJson(service, new { data = "version error" }));
                     return;
                 }
-
                 if (this.DataReceived != null)
                 {
-                    this.DataReceived(service, j.Value<JObject>("data"));
+                    this.DataReceived(service, j.Value<object>("data"));
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-               // ILiveDebug.Instance.WriteLine("IPadWebSocketServerIpad_DataReceived:" + ex.Message);
+                ILiveDebug.Instance.WriteLine("IPadWebSocketServerIpad_DataReceived:" + ex.Message);
 
             }
         }
@@ -111,7 +109,7 @@ namespace ILiveLib.WebSocketServer
         /// <param name="result">结果{IsBusy=true}</param>
         public void WSServer_Send(string service, object result)
         {
-            WSServer.Send(this.BuildAnswerJson(service, result));
+            this.WSServer.Send(this.BuildAnswerJson(service, result));
         }
         /// <summary>
         /// 向客户端发送字符串

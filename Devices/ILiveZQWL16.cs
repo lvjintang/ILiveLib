@@ -161,6 +161,88 @@ namespace ILiveLib
 
             this.SendData(this.addr, data);
         }
+        public void RelayDoubleOpen(int i)
+        {
+            byte[] data = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            switch (i)
+            {
+                case 1:
+                    data = new byte[] { 0x11, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+            
+                case 3:
+                    data = new byte[] { 0x22, 0x11, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+           
+                case 5:
+                    data = new byte[] { 0x22, 0x22, 0x11, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+               
+                case 7:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x11, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+           
+                case 9:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x11, 0x22, 0x22, 0x22 };
+                    break;
+                
+                case 11:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x11, 0x22, 0x22 };
+                    break;
+            
+                case 13:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x11, 0x22 };
+                    break;
+               
+                case 15:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x11 };
+                    break;
+               
+                default:
+                    break;
+            }
+
+            this.SendData(this.addr, data);
+        }
+        public void RelayDoubleClose(int i)
+        {
+            byte[] data = new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            switch (i)
+            {
+                case 1:
+                    data = new byte[] { 0x00, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+
+                case 3:
+                    data = new byte[] { 0x22, 0x00, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 5:
+                    data = new byte[] { 0x22, 0x22, 0x00, 0x22, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 7:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x00, 0x22, 0x22, 0x22, 0x22 };
+                    break;
+                case 9:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x00, 0x22, 0x22, 0x22 };
+                    break;
+                case 11:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x00, 0x22, 0x22 };
+                    break;
+                case 13:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x00, 0x22 };
+                    break;
+
+                case 15:
+                    data = new byte[] { 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x22, 0x00 };
+                    break;
+
+                default:
+                    break;
+            }
+
+            this.SendData(this.addr, data);
+        }
+    
         /// <summary>
         /// 发送数据
         /// </summary>
