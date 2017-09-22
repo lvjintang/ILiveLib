@@ -33,6 +33,7 @@ namespace ILiveLib
 
         void iserver_NetDataReceived(object sender, string message, EventArgs e)
         {
+           // ILiveDebug.Instance.WriteLine("TPCRecData:" + message);
             OnDataReceived(message);
         }
 
@@ -45,8 +46,7 @@ namespace ILiveLib
                 rdata.Clear();
             }
             byte[] sendBytes = Encoding.ASCII.GetBytes(serialData);
-            ILiveDebug.Instance.WriteLine("OnDataReceived:"+ILiveUtil.ToHexString(sendBytes));
-
+       
             try
             {
                 foreach (var item in sendBytes)
@@ -103,6 +103,11 @@ namespace ILiveLib
                 ILiveDebug.Instance.WriteLine(ex.Message);
 
             }
+        }
+
+        public void Send(string data)
+        {
+            this.iserver.Send(data);
         }
     }
 }

@@ -67,11 +67,15 @@ namespace ILiveLib
         {
             byte[] sendBytes = Encoding.ASCII.GetBytes(args.SerialData);
             // ILiveDebug.Instance.WriteLine("485Length:" + sendBytes.Length.ToString() + "data:" + ILiveUtil.ToHexString(sendBytes));
-           // ILiveDebug.Instance.WriteLine(ReceivingComPort.ID + "COMDebug:" + ILiveUtil.ToHexString(sendBytes) );
-            if (this.NetDataReceived!=null)
+            ILiveDebug.Instance.WriteLine(ReceivingComPort.ID + "COMDebug:" + ILiveUtil.ToHexString(sendBytes) );
+            if (!String.IsNullOrEmpty(args.SerialData))
             {
-                this.NetDataReceived(this,args.SerialData,null);
+                if (this.NetDataReceived != null)
+                {
+                    this.NetDataReceived(this, args.SerialData, null);
+                }
             }
+      
         }
         #region INetPortDevice 成员
 
@@ -83,9 +87,10 @@ namespace ILiveLib
             {
                 try
                 {
-                    ILiveDebug.Instance.WriteLine("COM" + this.com.ID + ":" + dataToTransmit);
-
+              
                     this.com.Send(dataToTransmit);
+                    ILiveDebug.Instance.WriteLine("COM" + this.com.ID + this.com.Registered+":" + dataToTransmit);
+
                 }
                 catch (Exception)
                 {

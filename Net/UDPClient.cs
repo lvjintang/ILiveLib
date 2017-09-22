@@ -64,16 +64,24 @@ namespace ILiveLib
         }
         private void Read(UDPServer myUDPServer, int numberOfBytesReceived)
         {
+            if (myUDPServer==null)
+            {
+                ILiveDebug.Instance.WriteLine("UDPReadError");
+                return;
+            }
+           // ILiveDebug.Instance.WriteLine("UDPRec:"+ numberOfBytesReceived.ToString()+"|"+myUDPServer.ToString()+"|"+ this.NetDataReceived.ToString());
             byte[] rbytes = new byte[numberOfBytesReceived];
 
             if (numberOfBytesReceived > 0)
             {
+                
                 string messageReceived = Encoding.GetEncoding(28591).GetString(myUDPServer.IncomingDataBuffer, 0, numberOfBytesReceived);
                 if (this.NetDataReceived!=null)
                 {
                     NetDataReceived(this, messageReceived, null);
 
                 }
+            
             }
             try
             {
