@@ -32,10 +32,8 @@ namespace ILiveLib
         public void Relay8SW8(int address, int port, bool states)
         {
             port -= 1;
-<<<<<<< HEAD
           //  ILiveDebug.Instance.WriteLine("addr:" + address + "port:" + port + "states:" + states);
-=======
->>>>>>> 189a754e5397068ad0977d1d33b7f301799f646d
+
             //  55 13 03 01 01 02 02 00 71
             byte p = (byte)(0x01 << port);
             //00000010 00000000  00000000 00000000 
@@ -76,13 +74,10 @@ namespace ILiveLib
             }
             sendBytes[8] = (byte)check;
 
-<<<<<<< HEAD
             // ILiveDebug.Instance.WriteLine("dahua:" + ILiveUtil.ToHexString(sendBytes));
-=======
             this.port.Send(sendBytes);
             Thread.Sleep(300);
         }
->>>>>>> 189a754e5397068ad0977d1d33b7f301799f646d
 
         /// <summary>
         /// 4路调光模块
