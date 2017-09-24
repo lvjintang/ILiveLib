@@ -155,7 +155,7 @@ namespace ILiveLib
         {
             //  byte[] checkarr1 = BitConverter.GetBytes(id + 161 + a + b + fun);
 
-            byte[] sendBytes = new byte[] { 178, (byte)id, (byte)type, (byte)a, (byte)b, (byte)fun, (byte)fun, 0, 43 };
+            byte[] sendBytes = new byte[] { 178, (byte)id, (byte)type, (byte)a, (byte)b, (byte)fun, 0, 43 };
             for (int i = 1; i < 6; i++)
             {
                 sendBytes[6] += sendBytes[i];
@@ -171,7 +171,7 @@ namespace ILiveLib
         /// <returns></returns>
         private byte[] BuildCMDScence(int id, int type, int index)
         {
-            byte[] sendBytes = new byte[] { 178, (byte)(id + 100), (byte)type, 0, (byte)index, 0, 0, 43 };
+            byte[] sendBytes = new byte[] { 178, (byte)(id + 100), (byte)type, 0, 0, (byte)index, 0, 43 };
             for (int i = 1; i < 6; i++)
             {
                 sendBytes[6] += sendBytes[i];

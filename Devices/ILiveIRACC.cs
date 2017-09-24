@@ -129,7 +129,6 @@ namespace ILiveLib
         //}
         public void SendIRACCPower(int group, bool on, IRACCFL fl)
         {
-
             byte dd = 0x60;
             byte gp = (byte)(208 + (group * 3));
             if (on)
@@ -171,7 +170,7 @@ namespace ILiveLib
 
             this.SendIRACC(0x01, 0x06, 0x07, gp, 0x00, (byte)mode);//00
         }
-        public void SendIRACCTemp(int group, int wendu)
+        public void SendIRACCTemp(int group, double wendu)
         {
             byte gp = (byte)(208 + (group * 3) + 2);
 
@@ -184,22 +183,25 @@ namespace ILiveLib
         private void SendIRACC(params byte[] data)
         {
 
-            string senddata = this.GetCMDString(data);
+            byte[] senddata = this.GetCMDString(data);
 
-            //byte[] sendBytes = Encoding.GetEncoding(28591).GetBytes(senddata);
-            //ILiveDebug.Instance.WriteLine("IRACCData:" + ILiveUtil.ToHexString(sendBytes));
+           // byte[] sendBytes = Encoding.GetEncoding(28591).GetBytes(senddata);
 
+            ILiveDebug.Instance.WriteLine(this.port.GetType().ToString());
 
             this.port.Send(senddata);
+
+           
         }
-        private string GetCMDString(params byte[] senddata)
+        private byte[] GetCMDString(params byte[] senddata)
         {
 
 
             byte[] crc = this.Crc_16(senddata);
 
             byte[] sendBytes = this.copybyte(senddata, crc);
-            return Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
+            return sendBytes;
+          //  return Encoding.GetEncoding(28591).GetString(sendBytes, 0, sendBytes.Length);
         }
         private byte[] Crc_16(byte[] source)
         {
