@@ -93,6 +93,7 @@ namespace ILiveLib
             else if (level==10)
             {
                 cmd1=0x80;
+
             }
             else
             {
