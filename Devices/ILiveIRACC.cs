@@ -177,7 +177,7 @@ namespace ILiveLib
             byte[] shi = System.BitConverter.GetBytes(wendu * 10);
 
             this.SendIRACC(0x01, 0x06, 0x07, gp, shi[1], shi[0]);//16
-
+            
         }
 
         private void SendIRACC(params byte[] data)
